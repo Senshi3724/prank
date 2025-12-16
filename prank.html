@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Une Surprise pour Toi !</title>
+    <style>
+        /* style.css */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a; /* Un fond sombre pour faire ressortir les couleurs */
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Une police amusante */
+            overflow: hidden; /* Très important : empêche les barres de défilement d'apparaître */
+            cursor: none; /* Cache le curseur de la souris pour plus de confusion */
+        }
+
+        .prank-text {
+            position: absolute; /* Permet de placer le texte n'importe où sur la page */
+            font-size: 5rem; /* Grande taille de police */
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Ombre pour donner du relief */
+            animation: fadeInZoom 0.4s ease-out; /* Petite animation d'apparition */
+            user-select: none; /* Empêche l'utilisateur de sélectionner le texte */
+            pointer-events: none; /* Le texte n'est pas cliquable */
+        }
+
+        /* Animation pour faire apparaître le texte en zoomant */
+        @keyframes fadeInZoom {
+            from {
+                opacity: 0;
+                transform: scale(0.2) rotate(-30deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Le JavaScript va opérer sa magie ici ! -->
+    <script>
+        // script.js
+
+        // Fonction pour obtenir une couleur aléatoire vive
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            // On génère 3 composantes de couleur (Rouge, Vert, Bleu)
+            // On s'assure que la couleur ne soit pas trop sombre en ajoutant 8
+            for (let i = 0; i < 3; i++) {
+                color += letters[Math.floor(Math.random() * 8) + 8];
+            }
+            return color;
+        }
+
+        // Fonction pour créer et placer un mot "golmon" sur la page
+        function createPrankText() {
+            const textElement = document.createElement('span');
+            textElement.textContent = 'golmon';
+            textElement.classList.add('prank-text');
+
+            // Style aléatoire
+            textElement.style.color = getRandomColor();
+            
+            // Position aléatoire sur l'écran
+            // On s'assure que le texte ne sorte pas complètement de l'écran
+            const x = Math.random() * (window.innerWidth - 200);
+            const y = Math.random() * (window.innerHeight - 100);
+            textElement.style.left = `${x}px`;
+            textElement.style.top = `${y}px`;
+
+            // Rotation aléatoire pour un effet plus chaotique
+            const rotation = Math.random() * 40 - 20; // entre -20 et +20 degrés
+            textElement.style.transform = `rotate(${rotation}deg)`;
+
+            // Ajoute le mot à la page
+            document.body.appendChild(textElement);
+        }
+
+        // Lance la fonction createPrankText toutes les 100 millisecondes (10 fois par seconde)
+        // C'est ça qui crée l'effet "infini" !
+        setInterval(createPrankText, 100);
+    </script>
+</body>
+</html>
