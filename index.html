@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Version améliorée du Prank 😈 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Une Surprise pour Toi !</title>
@@ -13,6 +14,29 @@
             font-family: 'Comic Sans MS', cursive, sans-serif; /* Une police amusante */
             overflow: hidden; /* Très important : empêche les barres de défilement d'apparaître */
             cursor: none; /* Cache le curseur de la souris pour plus de confusion */
+            color: white;
+            text-align: center;
+        }
+
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            cursor: pointer;
+        }
+
+        #start-button {
+            font-size: 2rem;
+            padding: 20px 40px;
+            border: 2px solid white;
+            border-radius: 10px;
         }
 
         .prank-text {
@@ -39,11 +63,18 @@
     </style>
 </head>
 <body>
-    <!-- Le JavaScript va opérer sa magie ici ! -->
-    <script>
-        // script.js
+    <div id="start-screen">
+        <div id="start-button">Clique pour une surprise...</div>
+    </div>
 
-        // Fonction pour obtenir une couleur aléatoire vive
+    <audio id="prank-sound" src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU9vT19PAN//AIA/gD6APgA+gD4APoA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4AN//AIA/gD6APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4APgA+gD4A=" loop></audio>
+
+    <script>
+        // --- SETUP ---
+        const startScreen = document.getElementById('start-screen');
+        const prankSound = document.getElementById('prank-sound');
+
+        // --- FONCTIONS ---
         function getRandomColor() {
             const letters = '0123456789ABCDEF';
             let color = '#';
@@ -55,7 +86,6 @@
             return color;
         }
 
-        // Fonction pour créer et placer un mot "golmon" sur la page
         function createPrankText() {
             const textElement = document.createElement('span');
             textElement.textContent = 'golmon';
@@ -65,24 +95,60 @@
             textElement.style.color = getRandomColor();
             
             // Position aléatoire sur l'écran
-            // On s'assure que le texte ne sorte pas complètement de l'écran
             const x = Math.random() * (window.innerWidth - 200);
             const y = Math.random() * (window.innerHeight - 100);
             textElement.style.left = `${x}px`;
             textElement.style.top = `${y}px`;
 
-            // Rotation aléatoire pour un effet plus chaotique
+            // Rotation et direction de mouvement aléatoires
             const rotation = Math.random() * 40 - 20; // entre -20 et +20 degrés
             textElement.style.transform = `rotate(${rotation}deg)`;
+            textElement.dataset.dx = Math.random() * 2 - 1; // Vitesse horizontale
+            textElement.dataset.dy = Math.random() * 2 - 1; // Vitesse verticale
 
-            // Ajoute le mot à la page
             document.body.appendChild(textElement);
         }
 
-        // Lance la fonction createPrankText toutes les 100 millisecondes (10 fois par seconde)
-        // C'est ça qui crée l'effet "infini" !
-        setInterval(createPrankText, 100);
+        function animate() {
+            const texts = document.querySelectorAll('.prank-text');
+            texts.forEach(text => {
+                let x = parseFloat(text.style.left);
+                let y = parseFloat(text.style.top);
+
+                x += parseFloat(text.dataset.dx);
+                y += parseFloat(text.dataset.dy);
+
+                // Rebondir sur les bords de l'écran
+                if (x < 0 || x > window.innerWidth - 200) text.dataset.dx *= -1;
+                if (y < 0 || y > window.innerHeight - 100) text.dataset.dy *= -1;
+
+                text.style.left = `${x}px`;
+                text.style.top = `${y}px`;
+            });
+            requestAnimationFrame(animate); // Boucle d'animation
+        }
+
+        function flashTitle() {
+            document.title = document.title === "SURPRISE !" ? "GOLMON !" : "SURPRISE !";
+        }
+
+        // --- DÉCLENCHEMENT ---
+        startScreen.addEventListener('click', () => {
+            // Cacher l'écran de démarrage
+            startScreen.style.display = 'none';
+
+            // Démarrer le son
+            prankSound.play();
+
+            // Lancer la création des textes
+            setInterval(createPrankText, 100);
+
+            // Lancer le clignotement du titre
+            setInterval(flashTitle, 400);
+
+            // Lancer l'animation de mouvement
+            animate();
+        });
     </script>
 </body>
 </html>
-
